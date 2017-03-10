@@ -22,7 +22,7 @@
   "devDependencies": {
     "json-stringify-safe": "~5.0.1",
     "ocat": "~0.1.0",
-    "spok": "~0.6.0",
+    "spok": "~0.7.0",
     "tape": "~4.6.3"
   },
   "keywords": [],
