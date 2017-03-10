@@ -13,6 +13,7 @@
   "homepage": "https://github.com/nodesource/ah-net",
   "dependencies": {
     "ah-collector": "0.0.6",
+    "ah-preprocessors": "~0.1.0",
     "ah-prune": "~1.2.0",
     "ah-stack-capturer": "~1.1.0",
     "facile-clone": "~1.2.0",

@@ -1,6 +1,6 @@
 const ActivityCollector = require('ah-collector')
 const StackCapturer = require('ah-stack-capturer')
-const Cloner = require('./lib/cloner')
+const { Cloner } = require('ah-preprocessors')
 const NetworkResourceProcessor = require('./lib/network-resource-processor')
 const prune = require('ah-prune')
 
@@ -70,7 +70,7 @@ class NetworkActivityCollector extends ActivityCollector {
   _after(uid) {
     const h = super._after(uid)
     this._resourceProcessor
-      .cleanupResource(h, uid, this.activities, { collectFunctionInfo: true })
+      .cleanupResource(uid, this.activities, { collectFunctionInfo: true })
     return h
   }
 
@@ -78,7 +78,7 @@ class NetworkActivityCollector extends ActivityCollector {
   _destroy(uid) {
     const h = super._destroy(uid)
     this._resourceProcessor
-      .cleanupResource(h, uid, this.activities, { collectFunctionInfo: true })
+      .cleanupResource(uid, this.activities, { collectFunctionInfo: true })
     return h
   }
 }
