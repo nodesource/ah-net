@@ -6,7 +6,7 @@ function inspect(obj, depth) {
   return require('util').inspect(obj, false, depth || 55, false)
 }
 
-module.exports = function save(name, obj, { json = false }) {
+module.exports = function save(name, obj, { json = false } = {}) {
   if (json) {
     const file = path.join(__dirname, '..', 'tmp', name + '.json')
     fs.writeFileSync(file, stringify(obj, null, 2), 'utf8')

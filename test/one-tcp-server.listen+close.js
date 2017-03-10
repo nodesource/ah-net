@@ -49,20 +49,13 @@ test('\none net.createServer listening', function(t) {
     const xs = activities.values()
     const createHandle = xs.next().value
 
-    ocat.log(createHandle)
-
     spok(t, createHandle,
       { $topic: 'createHandle'
       , id: spok.gtz
       , type: 'TCPWRAP'
       , triggerId: spok.gtz
       , init: spok.arrayElements(1)
-      , initStack:
-        [ 'at createServerHandle (net.js:1200:14)'
-        , 'at Server._listen2 (net.js:1244:14)'
-        , 'at listen (net.js:1312:10)'
-        , 'at Server.listen (net.js:1391:9)'
-        , 'at Test.<anonymous> (/Volumes/d/dev/js/async-hooks/ah-net/test/one-tcp-server.listen+close.js:30:6)' ]
+      , initStack: spok.arrayElements(5)
       , resource:
         { owner:
           { _eventsCount: 3

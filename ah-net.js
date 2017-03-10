@@ -9,7 +9,7 @@ const util = require('util')
 const print = obj => process._rawDebug(util.inspect(obj, true, 100, true))
 /* eslint-enable no-unused-vars */
 
-const types = new Set([ 'TCPWRAP', 'TCPCONNECTWRAP' ])
+const types = new Set([ 'TCPWRAP', 'TCPCONNECTWRAP', 'PIPEWRAP', 'PIPECONNECTWRAP', 'SHUTDOWNWRAP' ])
 
 function isnetType(type) {
   // TODO: when implementing further examples make sure to consider TickObjects
@@ -61,7 +61,6 @@ class NetworkActivityCollector extends ActivityCollector {
   // @override
   _init(uid, type, triggerId, resource) {
     const activity = super._init(uid, type, triggerId, resource)
-    // print({ uid, type, resource })
     activity.resource = resource
     return activity
   }
