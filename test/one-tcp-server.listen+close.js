@@ -1,5 +1,6 @@
 const NetworkActivityCollector = require('../')
 const test = require('tape')
+const tick = require('./util/tick')
 const spok = require('spok')
 const net = require('net')
 const BUFFERLENGTH = 18
@@ -34,14 +35,16 @@ test('\none net.createServer listening', function(t) {
   function onlistening() { server.close(onclosed) }
 
   function onclosed() {
-    collector
-      .disable()
-      .cleanAllResources()
-      .processStacks()
+    tick(2, () => {
+      collector
+        .disable()
+        .cleanAllResources()
+        .processStacks()
 
-    const activities = collector.networkActivities
-    // save('one-server.listening', Array.from(activities), { inspect: true })
-    runTest(activities)
+      const activities = collector.networkActivities
+      // save('one-server.listening', Array.from(activities), { json: true })
+      runTest(activities)
+    })
   }
 
   function runTest(activities) {
@@ -56,6 +59,8 @@ test('\none net.createServer listening', function(t) {
       , triggerId: spok.gtz
       , init: spok.arrayElements(1)
       , initStack: spok.arrayElements(5)
+      , destroy: spok.arrayElements(1)
+      , destroyStack: spok.arrayElements(0)
       , resource:
         { owner:
           { _eventsCount: 3

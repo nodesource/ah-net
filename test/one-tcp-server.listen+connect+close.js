@@ -1,5 +1,6 @@
 const NetworkActivityCollector = require('../')
 const test = require('tape')
+const tick = require('./util/tick')
 const spok = require('spok')
 const net = require('net')
 const filterSortFunctions = require('./util/filter-sort-functions')
@@ -43,14 +44,16 @@ test('\none net.createServer listening', function(t) {
   function onconnected() {}
 
   function onclosed() {
-    collector
-      .disable()
-      .cleanAllResources()
-      .processStacks()
+    tick(2, () => {
+      collector
+        .disable()
+        .cleanAllResources()
+        .processStacks()
 
-    const activities = collector.networkActivities
-    // save('one-server.listening+connect', Array.from(collector.activities))
-    runTest(activities)
+      const activities = collector.networkActivities
+      // save('one-server.listening+connect', Array.from(collector.activities))
+      runTest(activities)
+    })
   }
 
   function runTest(activities) {
@@ -174,12 +177,12 @@ test('\none net.createServer listening', function(t) {
           , destroyed: true
           , proto: 'Socket' }
         }
-      , before: spok.arrayElements(1)
-      , beforeStacks: spok.arrayElements(1)
-      , after: spok.arrayElements(1)
-      , afterStacks: spok.arrayElements(1)
-      , destroy: spok.notDefined
-      , destroyStack: spok.notDefined
+      , before: spok.arrayElements(2)
+      , beforeStacks: spok.arrayElements(2)
+      , after: spok.arrayElements(2)
+      , afterStacks: spok.arrayElements(2)
+      , destroy: spok.arrayElements(1)
+      , destroyStack: spok.arrayElements(0)
     })
 
     spok(t, filterSortFunctions(innerServerTcp.resource.functions),
