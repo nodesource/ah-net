@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+const net = require('net')
+const save = require('../../test/util/save')
+const PORT = process.argv[2] || 3333
+
+const BUFFERLENGTH = 18
+const STRINGLENGTH = 10
+const NetworkActivityCollector = require('../../')
+const collector = new NetworkActivityCollector({
+    start            : process.hrtime()
+  , captureArguments : true
+  , captureSource    : false
+  , bufferLength     : BUFFERLENGTH
+  , stringLength     : STRINGLENGTH
+}).enable()
+
+net.connect(PORT, onconnected)
+function onconnected() {}
+
+process.on('exit', onexit)
+
+function onexit() {
+  collector
+    .disable()
+    .cleanAllResources()
+    .processStacks()
+
+    save('one-connection.client', Array.from(collector.networkActivities), { json: true })
+    save('one-connection.client.all', Array.from(collector.activities), { json: true })
+}

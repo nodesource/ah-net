@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+const net = require('net')
+const save = require('../../test/util/save')
+const tick = require('../../test/util/tick')
+const PORT = process.argv[2] || 3333
+
+const BUFFERLENGTH = 18
+const STRINGLENGTH = 10
+const NetworkActivityCollector = require('../../')
+const collector = new NetworkActivityCollector({
+    start            : process.hrtime()
+  , captureArguments : true
+  , captureSource    : false
+  , bufferLength     : BUFFERLENGTH
+  , stringLength     : STRINGLENGTH
+}).enable()
+
+const server = net.createServer()
+server
+  .on('connection', onconnection)
+  .on('error', onerror)
+  .on('listening', onlistening)
+  .listen(PORT)
+
+function onconnection(socket) {
+  socket.end()
+  server.close(onclosed)
+}
+
+function onerror(err) {
+  console.error(err)
+}
+
+function onlistening() { }
+
+function onclosed() {
+  tick(2, () => {
+    collector
+      .disable()
+      .cleanAllResources()
+      .processStacks()
+
+    save('one-connection.server', Array.from(collector.networkActivities), { json: true })
+    save('one-connection.server.all', Array.from(collector.activities), { json: true })
+  })
+}
