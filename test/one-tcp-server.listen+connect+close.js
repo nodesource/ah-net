@@ -51,7 +51,7 @@ test('\none net.createServer listening', function(t) {
         .processStacks()
 
       const activities = collector.networkActivities
-      // save('one-server.listening+connect', Array.from(collector.activities))
+      // save('one-server.listening+connect', Array.from(activities), { json: true })
       runTest(activities)
     })
   }
@@ -159,11 +159,10 @@ test('\none net.createServer listening', function(t) {
       , destroyStack: spok.arrayElements(0)
     })
 
-    const innerServerTcp = xs.next().value
-    // ocat.log(innerServerTcp)
+    const connectionSocket = xs.next().value
 
-    spok(t, innerServerTcp,
-      { $topic: 'innerServerTcp'
+    spok(t, connectionSocket,
+      { $topic: 'connectionSocket'
       , id: spok.number
       , type: 'TCPWRAP'
       , triggerId: serverTcp.id
@@ -175,7 +174,15 @@ test('\none net.createServer listening', function(t) {
           , _host: null
           , _eventsCount: 3
           , destroyed: true
-          , proto: 'Socket' }
+          , proto: 'Socket'
+          , server:
+            { domain: null
+            , _events: { type: 'object', proto: null, val: '<deleted>' }
+            , _eventsCount: spok.gtz
+            , _connections: spok.number
+            , _connectionKey: { type: 'string', len: 6, included: 6, val: '6::::0' }
+            , proto: 'Server' }
+          }
         }
       , before: spok.arrayElements(2)
       , beforeStacks: spok.arrayElements(2)
@@ -185,7 +192,7 @@ test('\none net.createServer listening', function(t) {
       , destroyStack: spok.arrayElements(0)
     })
 
-    spok(t, filterSortFunctions(innerServerTcp.resource.functions),
+    spok(t, filterSortFunctions(connectionSocket.resource.functions),
       [ { path: [ 'owner', '_server', '_events', 'connection' ]
         , key: 'connection'
         , level: 3
@@ -235,7 +242,7 @@ test('\none net.createServer listening', function(t) {
       { $topic: 'shutdown'
       , id: spok.gtz
       , type: 'SHUTDOWNWRAP'
-      , triggerId: innerServerTcp.id
+      , triggerId: connectionSocket.id
       , init: spok.arrayElements(1)
       , initStack: spok.arrayElements(5)
       , resource: null
