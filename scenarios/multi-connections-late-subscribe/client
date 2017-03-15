@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+const net = require('net')
+const save = require('../../test/util/save')
+const PORT = process.argv[2] || 3333
+
+net.connect(PORT, onconnected)
+function onconnected() {}
