@@ -24,8 +24,14 @@ server
   .listen(PORT)
 
 function onconnection(socket) {
-  socket.end()
-  server.close(onclosed)
+  socket.write('hello\r\n')
+  socket
+    .on('end', onsocketEnd)
+    .end()
+
+  function onsocketEnd() {
+    server.close(onclosed)
+  }
 }
 
 function onerror(err) {

@@ -15,8 +15,16 @@ const collector = new NetworkActivityCollector({
   , stringLength     : STRINGLENGTH
 }).enable()
 
-net.connect(PORT, onconnected)
-function onconnected() {}
+const client = net
+  .connect(PORT, onconnected)
+  .on('data', ondata)
+  .on('end', onend)
+
+function onconnected(sock) { }
+function ondata(d) {
+  client.end()
+}
+function onend() {}
 
 process.on('exit', onexit)
 
