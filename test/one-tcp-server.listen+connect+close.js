@@ -58,7 +58,7 @@ test('\none net.createServer listening', function(t) {
 
   function runTest(activities) {
     const xs = activities.values()
-    t.equal(activities.size, 5, '5 network activities')
+    t.equal(activities.size, 6, '6 network activities')
 
     const serverTcp = xs.next().value
 
@@ -142,12 +142,28 @@ test('\none net.createServer listening', function(t) {
       , destroy: spok.arrayElements(1)
       , destroyStack: spok.arrayElements(0)
     })
-    const connectWrap = xs.next().value
 
+    const getAddrInfo = xs.next().value
+    spok(t, getAddrInfo,
+      { id: spok.number
+      , type: 'GETADDRINFOREQWRAP'
+      , triggerId: serverTcp.id
+      , init: spok.arrayElements(1)
+      , initStack: spok.arrayElements(5)
+      , resource: null
+      , before: spok.arrayElements(1)
+      , beforeStacks: spok.arrayElements(1)
+      , after: spok.arrayElements(1)
+      , afterStacks: spok.arrayElements(1)
+      , destroy: spok.arrayElements(1)
+      , destroyStack: spok.arrayElements(0)
+    })
+
+    const connectWrap = xs.next().value
     spok(t, connectWrap,
       { $topic: 'connectWrap'
       , id: spok.number
-      , triggerId: serverTcp.id
+      , triggerId: getAddrInfo.id
       , init: spok.arrayElements(1)
       , initStack: spok.arrayElements(4)
       , resource: null

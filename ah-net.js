@@ -9,7 +9,7 @@ const util = require('util')
 const print = obj => process._rawDebug(util.inspect(obj, true, 100, true))
 /* eslint-enable no-unused-vars */
 
-const types = new Set([ 'TCPWRAP', 'TCPCONNECTWRAP', 'PIPEWRAP', 'PIPECONNECTWRAP', 'SHUTDOWNWRAP' ])
+const types = new Set([ 'TCPWRAP', 'TCPCONNECTWRAP', 'PIPEWRAP', 'PIPECONNECTWRAP', 'SHUTDOWNWRAP', 'GETADDRINFOREQWRAP' ])
 
 function isnetType(type) {
   // TODO: when implementing further examples make sure to consider TickObjects
