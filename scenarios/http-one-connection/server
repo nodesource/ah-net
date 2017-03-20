@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+
+const http = require('http')
+const save = require('../../test/util/save')
+const tick = require('../../test/util/tick')
+const PORT = process.argv[2] || 3333
+
+const BUFFERLENGTH = 18
+const STRINGLENGTH = 10
+const NetworkActivityCollector = require('../../')
+const collector = new NetworkActivityCollector({
+    start            : process.hrtime()
+  , captureArguments : true
+  , captureSource    : false
+  , bufferLength     : BUFFERLENGTH
+  , stringLength     : STRINGLENGTH
+}).enable()
+
+const server = http.createServer()
+server
+  .on('request', onrequest)
+  .on('error', onerror)
+  .on('listening', onlistening)
+  .listen(PORT)
+
+function serveWorld(res) {
+  res.writeHead(200, { 'Content-Type': 'text/plain' })
+  res.write('world')
+  res.end()
+}
+
+function serveShutdown(res) {
+  res.writeHead(200)
+  res.end()
+  server.close(onclosed)
+}
+
+function onrequest(req, res) {
+  if (req.url === '/hello') return serveWorld(res)
+  if (req.url === '/shutdown') return serveShutdown(res)
+
+  res.writeHead(404)
+  res.end()
+}
+
+function onerror(err) {
+  console.error(err)
+}
+
+function onlistening() { }
+
+function onclosed() {
+  tick(2, () => {
+    collector
+      .disable()
+      .cleanAllResources()
+      .processStacks()
+
+    save('http-one-connection.server', Array.from(collector.networkActivities), { json: true })
+    save('http-one-connection.server.all', Array.from(collector.activities), { json: true })
+  })
+}

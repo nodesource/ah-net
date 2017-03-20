@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+const http = require('http')
+const save = require('../../test/util/save')
+const PORT = process.argv[2] || 3333
+
+const BUFFERLENGTH = 18
+const STRINGLENGTH = 10
+const NetworkActivityCollector = require('../../')
+const collector = new NetworkActivityCollector({
+    start            : process.hrtime()
+  , captureArguments : true
+  , captureSource    : false
+  , bufferLength     : BUFFERLENGTH
+  , stringLength     : STRINGLENGTH
+}).enable()
+
+const shutdownRoute = `http://localhost:${PORT}/shutdown`
+
+http.get(shutdownRoute, onconnected)
+  .on('aborted', onaborted)
+
+function onconnected() { }
+function onaborted() { }
+
+process.on('exit', onexit)
+
+function onexit() {
+  collector
+    .disable()
+    .cleanAllResources()
+    .processStacks()
+
+    save('http-one-connection.client', Array.from(collector.networkActivities), { json: true })
+    save('http-one-connection.client.all', Array.from(collector.activities), { json: true })
+}
