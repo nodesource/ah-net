@@ -6,10 +6,18 @@ const prune = require('ah-prune')
 
 /* eslint-disable no-unused-vars */
 const util = require('util')
-const print = obj => process._rawDebug(util.inspect(obj, true, 100, true))
+const print = obj => process._rawDebug(util.inspect(obj, true, 100, false))
 /* eslint-enable no-unused-vars */
 
-const types = new Set([ 'TCPWRAP', 'TCPCONNECTWRAP', 'PIPEWRAP', 'PIPECONNECTWRAP', 'SHUTDOWNWRAP', 'GETADDRINFOREQWRAP' ])
+const types = new Set([
+    'TCPWRAP'
+  , 'TCPCONNECTWRAP'
+  , 'PIPEWRAP'
+  , 'PIPECONNECTWRAP'
+  , 'SHUTDOWNWRAP'
+  , 'GETADDRINFOREQWRAP'
+  , 'HTTPPARSER'
+])
 
 function isnetType(type) {
   // TODO: when implementing further examples make sure to consider TickObjects
@@ -68,6 +76,7 @@ class NetworkActivityCollector extends ActivityCollector {
   // @override
   _after(uid) {
     const h = super._after(uid)
+    // if (h.type === 'HTTPPARSER') print(h)
     this._resourceProcessor
       .cleanupResource(uid, this.activities, { collectFunctionInfo: true })
     return h
