@@ -209,46 +209,31 @@ test('\none net.createServer listening', function(t) {
     })
 
     spok(t, filterSortFunctions(connectionSocket.resource.functions),
-      [ { path: [ 'owner', '_server', '_events', 'connection' ]
+      [ { path: [ 'owner', 'server', '_events', 'connection' ]
         , key: 'connection'
-        , level: 3
         , info: {
               file: spok.endsWith('one-tcp-server.listen+connect+close.js')
+            , line: spok.gtz
+            , column: spok.gtz
+            , inferredName: ''
             , name: 'onconnection' }
-        , arguments: null }
-      , { path: [ 'owner', 'server', '_events', 'connection' ]
-        , key: 'connection'
-        , level: 3
-        , info: {
-              file: spok.endsWith('one-tcp-server.listen+connect+close.js')
-            , name: 'onconnection' }
-        , arguments: null }
-      , { path: [ 'owner', '_server', '_events', 'error' ]
-        , key: 'error'
-        , level: 3
-        , info: {
-              file: spok.endsWith('one-tcp-server.listen+connect+close.js')
-            , name: 'onerror' }
         , arguments: null }
       , { path: [ 'owner', 'server', '_events', 'error' ]
         , key: 'error'
-        , level: 3
         , info: {
               file: spok.endsWith('one-tcp-server.listen+connect+close.js')
+            , line: spok.gtz
+            , column: spok.gtz
+            , inferredName: ''
             , name: 'onerror' }
-        , arguments: null }
-      , { path: [ 'owner', '_server', '_events', 'listening' ]
-        , key: 'listening'
-        , level: 3
-        , info: {
-              file: spok.endsWith('one-tcp-server.listen+connect+close.js')
-            , name: 'onlistening' }
         , arguments: null }
       , { path: [ 'owner', 'server', '_events', 'listening' ]
         , key: 'listening'
-        , level: 3
         , info: {
               file: spok.endsWith('one-tcp-server.listen+connect+close.js')
+            , line: spok.gtz
+            , column: spok.gtz
+            , inferredName: ''
             , name: 'onlistening' }
         , arguments: null } ]
     )
