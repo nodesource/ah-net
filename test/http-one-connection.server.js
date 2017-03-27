@@ -3,23 +3,13 @@ const test = require('tape')
 const tick = require('./util/tick')
 const spok = require('spok')
 const filterSortFunctions = require('./util/filter-sort-functions')
+const lastEls = require('./util/last-els')
 const { exec } = require('child_process')
 
 /* eslint-disable no-unused-vars */
 const ocat = require('./util/ocat')
 const save = require('./util/save')
 /* eslint-enable no-unused-vars */
-
-function lastEls(els) {
-  return function(arr) {
-    while (true) {
-      const actual = arr.pop()
-      const expected = els.pop()
-      if (expected == null) return true
-      if (actual !== expected) return false
-    }
-  }
-}
 
 const userFunctions = [
   { path: lastEls([ '_events', 'request' ])
@@ -155,7 +145,7 @@ test('\none http server with shutdown route that is called by external client im
 
     spok(t, filterSortFunctions(server.resource.functions), userFunctions)
 
-    // Next few are the pipewrap we pick up, but they areof the child process
+    // Next few are the pipewrap we pick up, but they are of the child process
     // we created for the client, so we'll ignore it.
     // Could be argued that we should filter them out here, but we'd have to
     // look at the stacktrace to determine if a pipewrap is related to net or
