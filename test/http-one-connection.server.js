@@ -47,8 +47,8 @@ const userFunctions = [
     , arguments: null } ]
 userFunctions.$topic = 'user functions'
 
-const BUFFERLENGTH = 18
-const STRINGLENGTH = 18
+const BUFFERLENGTH = 100
+const STRINGLENGTH = 100
 const NetworkActivityCollector = require('../')
 
 let port
@@ -209,7 +209,6 @@ test('\none http server with shutdown route that is called by external client im
           , _paused: false
           , read: { type: 'function', proto: null, val: '<deleted>' }
           , _consuming: true
-          , _httpMessage: null
           , proto: 'Socket' } }
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)
@@ -296,8 +295,7 @@ test('\none http server with shutdown route that is called by external client im
           , read: { type: 'function', proto: null, val: '<deleted>' }
           , _consuming: true
           , _httpMessage:
-              { domain: null
-              , _events: { type: 'object', proto: null, val: '<deleted>' }
+              { _events: { type: 'object', proto: null, val: '<deleted>' }
               , output: { type: 'object', proto: 'Array', val: '<deleted>' }
               , outputEncodings: { type: 'object', proto: 'Array', val: '<deleted>' }
               , outputCallbacks: { type: 'object', proto: 'Array', val: '<deleted>' }
@@ -322,9 +320,8 @@ test('\none http server with shutdown route that is called by external client im
               , _header:
                 { type: 'string'
                 , len: 103
-                , included: 18
-                , val: 'HTTP/1.1 200 OK\r\nD' }
-              , _headers: null
+                , included: 100
+                , val: spok.startsWith('HTTP/1.1 200 OK\r\nDate:') }
               , _onPendingData: { type: 'function', proto: null, val: '<deleted>' }
               , _sent100: false
               , _expect_continue: false

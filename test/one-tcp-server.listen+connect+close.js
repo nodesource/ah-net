@@ -64,15 +64,15 @@ test('\none net.createServer listening', function(t) {
 
     spok(t, serverTcp,
        { $topic: 'serverTcp'
-       , id: spok.number
+       , id: spok.gtz
        , type: 'TCPWRAP'
        , triggerId: spok.number
        , init: spok.arrayElements(1)
        , initStack: spok.arrayElements(5)
        , resource:
          { owner:
-            {  _eventsCount: 4
-            , _connections: 1
+            {  _eventsCount: spok.gt(2)
+            , _connections: spok.gtz
             , _asyncId: spok.number
             , _connectionKey: { type: 'string', len: 6, included: 6, val: '6::::0' }
             , proto: 'Server' }
@@ -121,7 +121,7 @@ test('\none net.createServer listening', function(t) {
     const clientTcp = xs.next().value
     spok(t, clientTcp,
       { $topic: 'clientTcp'
-      , id: spok.number
+      , id: spok.gtz
       , type: 'TCPWRAP'
       , triggerId: serverTcp.id
       , init: spok.arrayElements(1)
@@ -145,9 +145,10 @@ test('\none net.createServer listening', function(t) {
 
     const getAddrInfo = xs.next().value
     spok(t, getAddrInfo,
-      { id: spok.number
+      { $topic: 'addrinfo'
+      , id: spok.gtz
       , type: 'GETADDRINFOREQWRAP'
-      , triggerId: serverTcp.id
+      , triggerId: clientTcp.id
       , init: spok.arrayElements(1)
       , initStack: spok.arrayElements(5)
       , resource: null
@@ -162,8 +163,8 @@ test('\none net.createServer listening', function(t) {
     const connectWrap = xs.next().value
     spok(t, connectWrap,
       { $topic: 'connectWrap'
-      , id: spok.number
-      , triggerId: getAddrInfo.id
+      , id: spok.gtz
+      , triggerId: clientTcp.id
       , init: spok.arrayElements(1)
       , initStack: spok.arrayElements(4)
       , resource: null
@@ -179,7 +180,7 @@ test('\none net.createServer listening', function(t) {
 
     spok(t, connectionSocket,
       { $topic: 'connectionSocket'
-      , id: spok.number
+      , id: spok.gtz
       , type: 'TCPWRAP'
       , triggerId: serverTcp.id
       , init: spok.arrayElements(1)
