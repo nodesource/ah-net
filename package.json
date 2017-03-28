@@ -1,6 +1,6 @@
 {
   "name": "ah-net",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Tracks async hook events related to network operations.",
   "main": "ah-net.js",
   "scripts": {
