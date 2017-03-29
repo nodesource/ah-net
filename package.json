@@ -20,6 +20,7 @@
     "function-scout": "~0.3.0"
   },
   "devDependencies": {
+    "dev-null": "~0.1.1",
     "json-stringify-safe": "~5.0.1",
     "ocat": "~0.1.0",
     "spok": "~0.7.0",

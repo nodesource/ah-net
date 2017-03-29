@@ -2,7 +2,6 @@ const http = require('http')
 const test = require('tape')
 const tick = require('./util/tick')
 const spok = require('spok')
-const devNull = require('dev-null')
 const filterSortFunctions = require('./util/filter-sort-functions')
 const userFunctions = require('./common/http-one-connection.client.user-functions')
 
@@ -23,8 +22,8 @@ const collector = new NetworkActivityCollector({
   , stringLength     : STRINGLENGTH
 }).enable()
 
-test('\none client performing an http request that does shutdown', function(t) {
- const client = http.get('http://google.com')
+test('\none client performing an http request that does not shutdown', function(t) {
+  const client = http.get('http://google.com')
   client
     .on('connect', onconnect)
     .on('error', onerror)
@@ -32,19 +31,16 @@ test('\none client performing an http request that does shutdown', function(t) {
 
   function onconnect() {}
   function onerror(err) { console.error(err) }
-  function onresponse(res) {
-    res.pipe(devNull()).on('finish', onend)
-  }
 
-  function onend() {
+  function onresponse() {
     tick(3, () => {
       collector
         .disable()
         .cleanAllResources()
         .processStacks()
 
-      // save('http-one-connection.client', Array.from(collector.networkActivities), { json: true })
-      // save('http-one-connection.client.all', Array.from(collector.activities), { json: true })
+      // save('http-one-connection.noshutdown.client', Array.from(collector.networkActivities), { json: true })
+      // save('http-one-connection.noshutdown.client.all', Array.from(collector.activities), { json: true })
       runTest(collector.networkActivities)
     })
   }
@@ -81,7 +77,7 @@ test('\none client performing an http request that does shutdown', function(t) {
             , readable: true
             , domain: null
             , _events: { type: 'object', proto: null, val: '<deleted>' }
-            , _eventsCount: spok.ge(2)
+            , _eventsCount: spok.gt(3)
             , _writableState: { type: 'object', proto: 'WritableState', val: '<deleted>' }
             , writable: true
             , allowHalfOpen: false
@@ -95,10 +91,10 @@ test('\none client performing an http request that does shutdown', function(t) {
             , read: { type: 'function', proto: null, val: '<deleted>' }
             , _consuming: true
             , proto: 'Socket' } }
-      , before: spok.arrayElements(2)
-      , beforeStacks: spok.arrayElements(2)
-      , after: spok.arrayElements(2)
-      , afterStacks: spok.arrayElements(2)
+      , before: spok.arrayElements(3)
+      , beforeStacks: spok.arrayElements(3)
+      , after: spok.arrayElements(3)
+      , afterStacks: spok.arrayElements(3)
       , destroy: spok.arrayElements(1)
       , destroyStack: spok.arrayElements(0) })
 
@@ -160,7 +156,7 @@ test('\none client performing an http request that does shutdown', function(t) {
            , _readableState: { type: 'object', proto: 'ReadableState', val: '<deleted>' }
            , readable: true
            , _events: { type: 'object', proto: null, val: '<deleted>' }
-           , _eventsCount: spok.ge(2)
+           , _eventsCount: spok.gt(3)
            , _writableState: { type: 'object', proto: 'WritableState', val: '<deleted>' }
            , writable: true
            , allowHalfOpen: false
@@ -175,7 +171,7 @@ test('\none client performing an http request that does shutdown', function(t) {
            , _httpMessage:
               { domain: null
               , _events: { type: 'object', proto: null, val: '<deleted>' }
-              , _eventsCount: spok.ge(2)
+              , _eventsCount: spok.gt(2)
               , output: { type: 'object', proto: 'Array', val: '<deleted>' }
               , outputEncodings: { type: 'object', proto: 'Array', val: '<deleted>' }
               , outputCallbacks: { type: 'object', proto: 'Array', val: '<deleted>' }
@@ -220,7 +216,7 @@ test('\none client performing an http request that does shutdown', function(t) {
            { _readableState: { type: 'object', proto: 'ReadableState', val: '<deleted>' }
            , readable: true
            , _events: { type: 'object', proto: null, val: '<deleted>' }
-           , _eventsCount: spok.ge(1)
+           , _eventsCount: 1
            , socket: { type: 'object', proto: 'Socket', val: '<deleted>' }
            , connection: { type: 'object', proto: 'Socket', val: '<deleted>' }
            , httpVersionMajor: 1
@@ -286,22 +282,6 @@ test('\none client performing an http request that does shutdown', function(t) {
       , destroyStack: spok.arrayElements(0)
     })
 
-    const shutdown = values.next().value
-    spok(t, shutdown,
-      { $topic: 'shutdown'
-      , id: spok.gtz
-      , type: 'SHUTDOWNWRAP'
-      , triggerId: socket.id
-      , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
-      , resource: null
-      , before: spok.arrayElements(1)
-      , beforeStacks: spok.arrayElements(1)
-      , after: spok.arrayElements(1)
-      , afterStacks: spok.arrayElements(1)
-      , destroy: spok.arrayElements(1)
-      , destroyStack: spok.arrayElements(0)
-    })
     t.end()
   }
 })
