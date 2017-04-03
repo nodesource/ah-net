@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+PORT=4444
+
+./server $PORT &
+# Wait for server to listen
+sleep 0.2
+./client $PORT

@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+const dns = require('dns')
+dns.lookup('localhost', {family: 6, all: true}, (err, addresses) => {
+  if (err) {
+    if (err.code === 'ENOTFOUND') {
+      console.log('localhost does not resolve to ::1')
+      return
+    }
+    throw err
+  }
+
+  if (addresses.some((val) => val.address === '::1')) {
+    console.log('OK')
+  } else {
+    console.log('localhost does not resolve to ::1')
+  }
+})
