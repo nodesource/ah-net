@@ -56,7 +56,7 @@ to the TLS protocol as well as few properties that may be interesting.
 
 - `lastHandshakeTime` Number
 - `handshakes` Number
-- `ssl` Object
+- `ssl` Object is the TLSWrap which is the same as the `_handle` so we don't capture it
 - `_requestCert` Boolean
 - `_rejectUnauthorized` Boolean
 
