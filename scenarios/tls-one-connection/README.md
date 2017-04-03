@@ -17,3 +17,48 @@
 Run `./check-localhost` and if it prints `OK`, you're good to go
 
 Then run via `./run`
+
+## Data Unique to TLS Server
+
+### TCPWRAP Socket
+
+The below are attached to the `TCPWRAP` representing the socket connection as well
+as the one representing the listening server. In the latter it is attached as 
+`resource.owner` while in the former case it is attached to `resource.owner.server`.
+
+- `_contexts` Object
+- `_sharedCreds` Object
+- `requestCert` Boolean
+- `rejectUnauthorized` Boolean
+- `ciphers` String
+- `honorCipherOrder` Boolean
+- `sessionIdContext` String
+
+### TLSWRAP
+
+The below are attached to the `TLSWRAP` of the connection.
+They are attached to `resource.owner` which is a `TLSSOCKET`.
+
+- `_tlsOptions` Object
+- `_secureEstablished` Boolean
+- `_securePending` Boolean
+- `_newSessionPending` Boolean
+- `_controlReleased` Boolean
+- `authorized` Boolean
+- `encrypted` Boolean
+- `servername`
+- `npnProtocol`
+- `alpnProtocol`
+- `authorizationError`
+
+The `resource.owner._handle` which is a `TLSWrap` has a lot of callbacks related
+to the TLS protocol as well as few properties that may be interesting.
+
+- `lastHandshakeTime` Number
+- `handshakes` Number
+- `ssl` Object
+- `_requestCert` Boolean
+- `_rejectUnauthorized` Boolean
+
+It also has a reference to the server, which is the same as the one found as part
+of the `TCPWRAP` resouce.

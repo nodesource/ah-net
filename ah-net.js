@@ -17,6 +17,7 @@ const types = new Set([
   , 'SHUTDOWNWRAP'
   , 'GETADDRINFOREQWRAP'
   , 'HTTPPARSER'
+  , 'TLSWRAP'
 ])
 
 function isnetType(type) {
