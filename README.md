@@ -63,7 +63,7 @@ Below is a condensed outline of the HTTPARSER properties that are most relevant:
          , finished
            ...
       }
-    , _handle: { fd, reading }
+    , _handle: { fd, reading, _parent }
     , server: { _connectionKey }
   }
  , incoming {
