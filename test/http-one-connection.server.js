@@ -108,14 +108,13 @@ test('\none http server with shutdown route that is called by external client im
       , type: 'TCPWRAP'
       , triggerId: spok.number
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource:
         { owner:
           { domain: null
           , _events: { type: 'object', proto: null, val: '<deleted>' }
           , _eventsCount: spok.gtz
           , _connections: 1
-          , _asyncId: spok.number
           , _handle:
               { bytesRead: 0
               , _externalStream: { type: 'object', proto: null, val: '<deleted>' }
@@ -167,7 +166,6 @@ test('\none http server with shutdown route that is called by external client im
       , resource:
         { owner:
           { connecting: false
-          , _asyncId: spok.number
           , _hadError: false
           , _handle: null
           , _parent: null
@@ -180,7 +178,6 @@ test('\none http server with shutdown route that is called by external client im
           , _writableState: { type: 'object', proto: 'WritableState', val: '<deleted>' }
           , writable: false
           , allowHalfOpen: true
-          , destroyed: true
           , _bytesDispatched: spok.number
           , _sockname: null
           , _pendingData: null
@@ -190,7 +187,6 @@ test('\none http server with shutdown route that is called by external client im
               , _events: { type: 'object', proto: null, val: '<deleted>' }
               , _eventsCount: spok.ge(4)
               , _connections: 0
-              , _asyncId: server.id
               , _handle: null
               , _usingSlaves: false
               , _slaves: { type: 'object', proto: 'Array', val: '<deleted>' }
@@ -230,7 +226,7 @@ test('\none http server with shutdown route that is called by external client im
       , type: 'HTTPPARSER'
       , triggerId: server.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource: null
       , before: spok.notDefined
       , beforeStacks: spok.notDefined
@@ -251,7 +247,6 @@ test('\none http server with shutdown route that is called by external client im
       , resource:
         { socket:
           { connecting: false
-          , _asyncId: spok.number
           , _hadError: false
           , _handle: { type: 'object', proto: 'TCP', val: '<deleted>' }
           , _parent: null
@@ -264,7 +259,6 @@ test('\none http server with shutdown route that is called by external client im
           , _writableState: { type: 'object', proto: 'WritableState', val: '<deleted>' }
           , writable: true
           , allowHalfOpen: true
-          , destroyed: false
           , _bytesDispatched: 108
           , _pendingEncoding: { type: 'string', len: 0, included: 0, val: '' }
           , server:
@@ -272,7 +266,6 @@ test('\none http server with shutdown route that is called by external client im
               , _events: { type: 'object', proto: null, val: '<deleted>' }
               , _eventsCount: spok.ge(5)
               , _connections: 1
-              , _asyncId: server.id
               , _handle: null
               , _usingSlaves: false
               , _slaves: { type: 'object', proto: 'Array', val: '<deleted>' }
@@ -374,7 +367,7 @@ test('\none http server with shutdown route that is called by external client im
       , type: 'SHUTDOWNWRAP'
       , triggerId: socket.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource: null
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)

@@ -68,12 +68,11 @@ test('\none net.createServer listening', function(t) {
        , type: 'TCPWRAP'
        , triggerId: spok.number
        , init: spok.arrayElements(1)
-       , initStack: spok.arrayElements(5)
+       , initStack: spok.arrayElementsRange(5, 6)
        , resource:
          { owner:
             {  _eventsCount: spok.gt(2)
             , _connections: spok.gtz
-            , _asyncId: spok.number
             , _connectionKey: { type: 'string', len: 6, included: 6, val: '6::::0' }
             , proto: 'Server' }
          , functions:
@@ -125,12 +124,11 @@ test('\none net.createServer listening', function(t) {
       , type: 'TCPWRAP'
       , triggerId: serverTcp.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource:
         { owner:
           { _host: { type: 'string', len: 9, included: 9, val: 'localhost' }
           , _eventsCount: 3
-          , destroyed: true
           , _bytesDispatched: 0
           , proto: 'Socket' }
         , functions: spok.array
@@ -150,7 +148,7 @@ test('\none net.createServer listening', function(t) {
       , type: 'GETADDRINFOREQWRAP'
       , triggerId: clientTcp.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource: null
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)
@@ -166,7 +164,7 @@ test('\none net.createServer listening', function(t) {
       , id: spok.gtz
       , triggerId: clientTcp.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(4)
+      , initStack: spok.arrayElementsRange(3, 4)
       , resource: null
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)
@@ -190,7 +188,6 @@ test('\none net.createServer listening', function(t) {
           { _parent: null
           , _host: null
           , _eventsCount: 3
-          , destroyed: true
           , proto: 'Socket'
           , server:
             { domain: null
@@ -246,7 +243,7 @@ test('\none net.createServer listening', function(t) {
       , type: 'SHUTDOWNWRAP'
       , triggerId: connectionSocket.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource: null
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)

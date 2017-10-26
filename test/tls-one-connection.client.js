@@ -23,7 +23,7 @@ const collector = new NetworkActivityCollector({
 })
 
 const tlsOptions = {
-    pipe: spok.notDefined
+    pipe: false
   , secureContext: {
       context: x => x == null || x.proto === 'SecureContext'
     , singleUse: true
@@ -111,7 +111,7 @@ test('\none tls.connect', function(t) {
       , type: 'TCPWRAP'
       , triggerId: spok.gtz
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource:
         { owner:
            { _tlsOptions: tlsOptions
@@ -129,7 +129,6 @@ test('\none tls.connect', function(t) {
            , _events: { type: 'object', proto: null, val: '<deleted>' }
            , _eventsCount: spok.gt(3)
            , connecting: false
-           , _asyncId: spok.gtz
            , _hadError: false
            , _host: { type: 'string', len: 9, included: 9, val: 'localhost' }
            , _readableState: { type: 'object', proto: 'ReadableState', val: '<deleted>' }
@@ -137,7 +136,6 @@ test('\none tls.connect', function(t) {
            , _writableState: { type: 'object', proto: 'WritableState', val: '<deleted>' }
            , writable: false
            , allowHalfOpen: false
-           , destroyed: true
            , _bytesDispatched: 0
            , _pendingEncoding: { type: 'string', len: 0, included: 0, val: '' }
            , server: spok.notDefined
@@ -173,7 +171,7 @@ test('\none tls.connect', function(t) {
       , type: 'TLSWRAP'
       , triggerId: socket.triggerId
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource:
         { owner:
            { _tlsOptions: tlsOptions
@@ -191,7 +189,6 @@ test('\none tls.connect', function(t) {
            , _events: { type: 'object', proto: null, val: '<deleted>' }
            , _eventsCount: spok.gt(4)
            , connecting: false
-           , _asyncId: tls.id
            , _hadError: false
            , _handle:
               { bytesRead: 0
@@ -218,7 +215,6 @@ test('\none tls.connect', function(t) {
            , _writableState: { type: 'object', proto: 'WritableState', val: '<deleted>' }
            , writable: true
            , allowHalfOpen: false
-           , destroyed: false
            , _bytesDispatched: 0
            , _sockname: spok.notDefined
            , _pendingData: spok.notDefined
@@ -241,7 +237,7 @@ test('\none tls.connect', function(t) {
       , type: 'GETADDRINFOREQWRAP'
       , triggerId: tls.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource: null
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)
@@ -257,7 +253,7 @@ test('\none tls.connect', function(t) {
       , type: 'TCPCONNECTWRAP'
       , triggerId: socket.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(3, 4)
       , resource: null
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)

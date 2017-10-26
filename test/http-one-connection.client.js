@@ -59,11 +59,10 @@ test('\none client performing an http request that does shutdown', function(t) {
       , type: 'TCPWRAP'
       , triggerId: spok.gtz
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
         , resource:
           { owner:
             { connecting: false
-            , _asyncId: socket.id
             , _hadError: false
             , _handle:
                 { bytesRead: spok.gt(200)
@@ -85,7 +84,6 @@ test('\none client performing an http request that does shutdown', function(t) {
             , _writableState: { type: 'object', proto: 'WritableState', val: '<deleted>' }
             , writable: true
             , allowHalfOpen: false
-            , destroyed: false
             , _bytesDispatched: spok.gtz
             , _sockname: null
             , _pendingData: null
@@ -111,7 +109,7 @@ test('\none client performing an http request that does shutdown', function(t) {
       , type: 'GETADDRINFOREQWRAP'
       , triggerId: socket.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource: null
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)
@@ -131,7 +129,7 @@ test('\none client performing an http request that does shutdown', function(t) {
       , type: 'HTTPPARSER'
       , triggerId: spok.gtz
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource: null
       , before: spok.notDefined
       , beforeStacks: spok.notDefined
@@ -148,11 +146,10 @@ test('\none client performing an http request that does shutdown', function(t) {
       , type: 'HTTPPARSER'
       , triggerId: spok.gtz
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(4)
+      , initStack: spok.arrayElementsRange(3, 4)
       , resource:
         { socket:
            { connecting: false
-           , _asyncId: socket.id
            , _hadError: false
            , _handle: { type: 'object', proto: 'TCP', val: '<deleted>' }
            , _parent: null
@@ -164,7 +161,6 @@ test('\none client performing an http request that does shutdown', function(t) {
            , _writableState: { type: 'object', proto: 'WritableState', val: '<deleted>' }
            , writable: true
            , allowHalfOpen: false
-           , destroyed: false
            , _bytesDispatched: spok.gtz
            , _sockname: null
            , _pendingData: null
@@ -202,7 +198,6 @@ test('\none client performing an http request that does shutdown', function(t) {
                  , len: 55
                  , included: 55
                  , val: 'GET / HTTP/1.1\r\nHost: google.com\r\nConnection: close\r\n\r\n' }
-              , _onPendingData: null
               , agent: { type: 'object', proto: 'Agent', val: '<deleted>' }
               , method: { type: 'string', len: 3, included: 3, val: 'GET' }
               , path: { type: 'string', len: 1, included: 1, val: '/' }
@@ -238,7 +233,7 @@ test('\none client performing an http request that does shutdown', function(t) {
                  { type: 'string'
                  , len: spok.gt(30)
                  , included: spok.gt(30)
-                 , val: spok.startsWith('http://www.google.de/?gfe_rd=cr&ei=') }
+                 , val: spok.startsWith('http://www.google') }
               , 'content-length': { type: 'string', len: 3, included: 3, val: spok.string }
               , date:
                  { type: 'string'
@@ -276,7 +271,7 @@ test('\none client performing an http request that does shutdown', function(t) {
       , type: 'TCPCONNECTWRAP'
       , triggerId: socket.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(4)
+      , initStack: spok.arrayElementsRange(3, 4)
       , resource: null
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)
@@ -293,7 +288,7 @@ test('\none client performing an http request that does shutdown', function(t) {
       , type: 'SHUTDOWNWRAP'
       , triggerId: socket.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource: null
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)

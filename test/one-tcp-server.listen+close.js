@@ -58,13 +58,12 @@ test('\none net.createServer listening', function(t) {
       , type: 'TCPWRAP'
       , triggerId: spok.gtz
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , destroy: spok.arrayElements(1)
       , destroyStack: spok.arrayElements(0)
       , resource:
         { owner:
           { _eventsCount: 3
-          , _asyncId: spok.gtz
           , _connectionKey: { type: 'string', len: 6, included: 6, val: '6::::0' }
           , proto: 'Server' }
         , functions:

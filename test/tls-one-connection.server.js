@@ -103,7 +103,7 @@ test('\none tls.createServer', function(t) {
       , type: 'TCPWRAP'
       , triggerId: spok.gtz
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource:
         { owner:
            { _contexts: 0
@@ -121,7 +121,6 @@ test('\none tls.createServer', function(t) {
            , _events: { type: 'object', proto: null, val: '<deleted>' }
            , _eventsCount: spok.ge(2)
            , _connections: 1
-           , _asyncId: spok.gtz
            , _handle:
               { bytesRead: 0
               , _externalStream: { type: 'object', proto: null, val: '<deleted>' }
@@ -160,7 +159,6 @@ test('\none tls.createServer', function(t) {
       , resource:
         { owner:
            { connecting: false
-           , _asyncId: connection.id
            , _hadError: false
            , _handle: null
            , _parent: null
@@ -173,7 +171,6 @@ test('\none tls.createServer', function(t) {
            , _writableState: { type: 'object', proto: 'WritableState', val: '<deleted>' }
            , writable: false
            , allowHalfOpen: false
-           , destroyed: true
            , _bytesDispatched: spok.gtz
            , _sockname: null
            , _pendingData: null
@@ -194,7 +191,6 @@ test('\none tls.createServer', function(t) {
               , _events: { type: 'object', proto: null, val: '<deleted>' }
               , _eventsCount: spok.gt(2)
               , _connections: 0
-              , _asyncId: listen.id
               , _handle: null
               , _usingSlaves: false
               , _slaves: { type: 'object', proto: 'Array', val: '<deleted>' }
@@ -222,7 +218,7 @@ test('\none tls.createServer', function(t) {
       , type: 'TLSWRAP'
       , triggerId: listen.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource:
         { owner:
            { _tlsOptions:
@@ -254,7 +250,6 @@ test('\none tls.createServer', function(t) {
            , _events: { type: 'object', proto: null, val: '<deleted>' }
            , _eventsCount: 8
            , connecting: false
-           , _asyncId: tls.id
            , _hadError: false
            , _handle:
               { bytesRead: 0
@@ -262,7 +257,6 @@ test('\none tls.createServer', function(t) {
               , fd: spok.gtz
               , _parent: { type: 'object', proto: 'TCP', val: '<deleted>' }
               , _parentWrap: { type: 'object', proto: 'Socket', val: '<deleted>' }
-              , _parentId: connection.id
               , _secureContext: {
                   context: x => x == null || x.proto === 'SecureContext'
                 , singleUse: spok.notDefined
@@ -289,7 +283,6 @@ test('\none tls.createServer', function(t) {
            , _writableState: { type: 'object', proto: 'WritableState', val: '<deleted>' }
            , writable: true
            , allowHalfOpen: false
-           , destroyed: false
            , _bytesDispatched: 0
            , _sockname: spok.notDefined
            , _pendingData: spok.notDefined
@@ -309,7 +302,6 @@ test('\none tls.createServer', function(t) {
               , _events: { type: 'object', proto: null, val: '<deleted>' }
               , _eventsCount: 4
               , _connections: 1
-              , _asyncId: listen.id
               , _usingSlaves: false
               , _slaves: { type: 'object', proto: 'Array', val: '<deleted>' }
               , _unref: false
@@ -336,7 +328,7 @@ test('\none tls.createServer', function(t) {
       , type: 'SHUTDOWNWRAP'
       , triggerId: connection.id
       , init: spok.arrayElements(1)
-      , initStack: spok.arrayElements(5)
+      , initStack: spok.arrayElementsRange(5, 6)
       , resource: null
       , before: spok.arrayElements(1)
       , beforeStacks: spok.arrayElements(1)
