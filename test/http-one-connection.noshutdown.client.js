@@ -219,7 +219,7 @@ test('\none client performing an http request that does not shutdown', function(
            , httpVersion: { type: 'string', len: 3, included: 3, val: '1.1' }
            , complete: false
            , headers:
-              { 'cache-control': { type: 'string', len: 7, included: 7, val: 'private' }
+              { 'cache-control': { type: 'string', len: spok.gtz, included: spok.gtz, val: spok.string }
               , 'content-type':
                  { type: 'string'
                  , len: 24
@@ -227,8 +227,8 @@ test('\none client performing an http request that does not shutdown', function(
                  , val: 'text/html; charset=UTF-8' }
               , location:
                  { type: 'string'
-                 , len: spok.gt(30)
-                 , included: spok.gt(30)
+                 , len: spok.gt(15)
+                 , included: spok.gt(15)
                  , val: spok.startsWith('http://www.google') }
               , 'content-length': { type: 'string', len: 3, included: 3, val: spok.string }
               , date:
@@ -244,8 +244,8 @@ test('\none client performing an http request that does not shutdown', function(
            , upgrade: false
            , url: { type: 'string', len: 0, included: 0, val: '' }
            , method: null
-           , statusCode: 302
-           , statusMessage: { type: 'string', len: 5, included: 5, val: 'Found' }
+           , statusCode: spok.range(301, 302)
+           , statusMessage: { type: 'string', len: spok.gtz, included: spok.gtz, val: spok.string }
            , client: { type: 'object', proto: 'Socket', val: '<deleted>' }
            , _consuming: false
            , _dumped: false
