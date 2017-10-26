@@ -1,4 +1,4 @@
-# ah-net
+# ah-net [![build status](https://secure.travis-ci.org/nodesource/ah-net.svg?branch=master)](http://travis-ci.org/nodesource/ah-net)
 
 Tracks async hook events related to network operations.
 
